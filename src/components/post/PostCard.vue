@@ -6,11 +6,13 @@
         <br>
         <b-row align-v="center" class="text-center">
             <b-col>
-                <b-button href="buy" variant="info" class="text-center" @click="buyEvent">Buy</b-button>
+                <b-button :href="post.id" variant="info" class="text-center" v-if='bought' >Detail</b-button>
+                <b-button variant="info" class="text-center" @click="buyEvent" v-else >Buy</b-button>
             </b-col>
         </b-row>
         <template #footer>
-            <em>{{post.cost}}</em>
+            <b-badge class='float-right' variant="success">{{post.cost}}</b-badge>
+            <b-icon icon="star-fill" animation="fade" font-scale="4">{{post.rating_average}}</b-icon>
         </template>
     </b-card>
 </template>
@@ -20,44 +22,41 @@
     import axios from 'axios'
     export default {
         props: {
-            post: {}
+            post: {},
+            bought_list: {}
         },
         data() {
             return {
-                is_bought: null,
                 bought: null,
             }
         },
         methods: {
             buyEvent: {
                 function () {
-                    let requesturl = url + 'post/posts/' + this.post.id + '/buy_post/'
-                    axios.get(requesturl).then(
-                        () => {
+                    let token = localStorage.getItem('Token')
+                    let tokenoption = {headers: {Authorization: `${token}`}}
+                    var buy_want = confirm('Do you want to buy this post?')
+                    if (buy_want === true) {
+                        let requesturl = url + 'post/posts/' + this.post.id + '/buy_post/'
+                        axios.get(requesturl,tokenoption).then(
+                            () => {
+                                this.bought = true
+                            }
+                        ).catch(() => {
                             this.bought = true
-                        }
-                    ).catch(() => {
-                        this.bought = true
-                    })
+                        })
+                    }
                 }
 
             }
         },
         mounted: function () {
-            let requesturl = url + 'post/posts' + this.post.id
-            axios.get(requesturl).then(
-                (res) => {
-                    let bought_list = res.data.buying
-                    if (bought_list.filters(() => {
-                            return true
-                            //vuex user로 바꾸기
-                        })) {
-                        this.is_bought = true
-                    } else {
-                        this.is_bought = false
-                    }
-                }
-            ).catch(this.is_bought = false)
+            if (this.bought_list.includes(this.post.id)){
+                this.bought = true;
+            }
+            else {
+                this.bought = false;
+            }
         }
 
     }

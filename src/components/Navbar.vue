@@ -17,9 +17,9 @@
         </b-navbar-nav>
         <!-- Right aligned nav items -->
         <b-navbar-nav class="ml-auto">
-            <b-nav-item-dropdown v-bind:text="nickname" right v-if="login">
+            <b-nav-item-dropdown v-bind:text="username" right v-if="login">
                 <b-dropdown-item>Credit : {{credit}}</b-dropdown-item>
-                <b-dropdown-item href="profle">Profile</b-dropdown-item>
+                <b-dropdown-item href="profile">Profile</b-dropdown-item>
                 <b-dropdown-item href="buyings">Buyings</b-dropdown-item>
                 <b-dropdown-item @click="logout">Log Out</b-dropdown-item>
             </b-nav-item-dropdown>
@@ -30,6 +30,7 @@
         </b-navbar-nav>
         </b-collapse>
         </b-navbar>
+        <router-view></router-view>
     </div>
 </template>
 
@@ -40,30 +41,32 @@ export default {
     data: () => {
         return {
             login: false,
-            nickname: null,
+            username: null,
             credit: null, 
         }
     },
     methods: {
-        logout: function (event) {
+        logout: function () {
             axios.post(url + 'auth/logout/',this.form).then(
-                    (res) => {
-                        console.log('remove token')
+                    () => {
                         localStorage.removeItem('Token')
+                        this.$router.push('listpost')
                     }
             ).catch(err => console.log(err))}
     },
     mounted: function() {
         let userurl = url + 'auth/user/'
         let token = localStorage.getItem('Token')
-        axios.get(userurl,{headers: {Authorization: `Token ${token}`}}).then(
+        let tokenoption = {headers: {Authorization: `${token}`}}
+        axios.get(userurl,tokenoption).then(
             (res) => {
-                this.nickname = res.username
+                console.log(res)
+                this.username = res.data.username
                 this.login = true
                 userurl = url + 'auth/profile/'
-                axios.get(userurl).then(
+                axios.get(userurl,tokenoption).then(
                     (res) => {
-                        this.credit = res.credit
+                        this.credit = res.data.credit
                     }
 
                 ).catch(this.credit = 'error')

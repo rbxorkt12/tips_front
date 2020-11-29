@@ -1,22 +1,10 @@
 <template>
 <div id="app">
-    <Navbar></Navbar>
-    <Listpost></Listpost>
+    <router-view></router-view>
 </div>
 </template>
 
 <script>
-// import Listpost from './components/Listpost'
-import Navbar from './components/Navbar'
-import Listpost from './components/Listpost'
-export default {
-    name: 'App',
-    components: {
-        Navbar,
-        Listpost
-
-    }
-}
 </script>
 
 <style>

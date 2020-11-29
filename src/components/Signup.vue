@@ -1,8 +1,8 @@
 <template>
     <div class="SignUp">
-        <b-card border-variant="info" align="left">
+         <b-card border-variant="info" align="left" style="max-width:60rem" class="mx-auto mt-5">
             <template #header>
-                <h2>SignUp</h2>
+                <h2>Sign Up</h2>
             </template>
             <b-form-group id='username' label="Your ID: " label-for='username'>
                 <b-form-input v-model="form.username" type='text' placeholder="Enter your ID" required></b-form-input>
@@ -29,7 +29,7 @@
             }
         },
         methods: {
-            Onsubmit: function (event) {
+            Onsubmit: function () {
                 axios.post(url + 'auth/register/', this.form).then(
                     (res) => {
                         localStorage.setItem('Token', res.token)
