@@ -13,7 +13,7 @@
 
 <script>
 import axios from 'axios'
-let server_url = 'http://127.0.0.1:8000/api/'
+let server_url = 'http://whale.sparcs.org:44747/api/'
 export default {
     data(){
         return {

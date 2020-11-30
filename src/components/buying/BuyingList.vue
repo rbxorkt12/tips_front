@@ -18,7 +18,7 @@
 <script>
 import axios from 'axios'
 import BuyingCard from './BuyingCard'
-let url ='http://127.0.0.1:8000/api';
+let url ='http://whale.sparcs.org:44747/api';
 export default {
     components: {
         BuyingCard

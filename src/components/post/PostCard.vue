@@ -21,7 +21,7 @@
 <script>
 let token = localStorage.getItem('Token')
 let tokenoption = {headers: {Authorization: `${token}`}}
-let url = 'http://127.0.0.1:8000/api/'
+let url = 'http://whale.sparcs.org:44747/api'
 import axios from 'axios'
     export default {
         props: {
@@ -38,7 +38,7 @@ import axios from 'axios'
                 function () {
                     var buy_want = confirm('Do you want to buy this post?')
                     if (buy_want === true) {
-                        axios.get(url + 'post/posts/' + this.post.id + '/buy_post/',tokenoption).then(
+                        axios.get(url + '/post/posts/' + this.post.id + '/buy_post/',tokenoption).then(
                             () => {
                                 this.bought = true
                             }

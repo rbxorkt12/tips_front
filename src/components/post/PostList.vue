@@ -1,6 +1,6 @@
 <template>
 <div class="ListTips">
-    <b-button :to="{name: 'postmake'}" class='float-left ml-3' :disable='log_in'>Make New Post</b-button>
+    <b-button :to="{name: 'postmake'}" class='float-left ml-3' :disabled='log_in==false'>Make New Post</b-button>
     <br>
     <br>
     <b-card header-tag="header" class="mb-2 mx-3" border-variant="info" align="left">
@@ -25,7 +25,7 @@
 <script>
 import axios from 'axios'
 import PostCard from './PostCard'
-let url ='http://127.0.0.1:8000/api';
+let url ='http://whale.sparcs.org:44747/api';
 export default {
     components: {
         PostCard,
