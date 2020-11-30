@@ -8,11 +8,11 @@
         <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
         <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav >
-            <b-nav-item href="posts">
+            <b-nav-item href="post">
                 <h2>Post</h2>
             </b-nav-item>
-            <b-nav-item :disabled="!login" href="buyings">
-                <h2>Buyings</h2>
+            <b-nav-item disabled href="buying">
+                <h2>Disabled</h2>
             </b-nav-item>
         </b-navbar-nav>
         <!-- Right aligned nav items -->
@@ -20,7 +20,7 @@
             <b-nav-item-dropdown v-bind:text="username" right v-if="login">
                 <b-dropdown-item>Credit : {{credit}}</b-dropdown-item>
                 <b-dropdown-item href="profile">Profile</b-dropdown-item>
-                <b-dropdown-item href="buyings">Buyings</b-dropdown-item>
+                <b-dropdown-item href="buying">Buyings</b-dropdown-item>
                 <b-dropdown-item @click="logout">Log Out</b-dropdown-item>
             </b-nav-item-dropdown>
             <b-nav-item-dropdown text="User" right v-else>  

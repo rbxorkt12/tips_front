@@ -1,6 +1,6 @@
 /<template>
     <div class="Profile">
-        <b-card border-variant="info" align="left" style="max-width:60rem" class="mx-auto mt-5">
+        <b-card border-variant="info" align="left" style="max-width:60rem" class="mx-3 mt-5">
             <template #header>
                 <h2>Profile</h2>
             </template>
