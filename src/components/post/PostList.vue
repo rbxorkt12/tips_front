@@ -1,6 +1,6 @@
 <template>
 <div class="ListTips">
-    <b-button href="post/make" class='float-left ml-3'>Make New Post</b-button>
+    <b-button :to="{name: 'postmake'}" class='float-left ml-3'>Make New Post</b-button>
     <br>
     <br>
     <b-card header-tag="header" class="mb-2 mx-3" border-variant="info" align="left">
@@ -36,39 +36,48 @@ export default {
             posts: [],
             own_post : false,
             bought_post: false,
-            bought_list: null,
+            bought_list: [],
             log_in: false,
         }
     },
     methods: {
     },
-    mounted: function() {
+    created: function() {
+
+        //구매한 포스팅 확인
+        // 모든 포스팅 보기
+        axios.get(url + '/post/posts/').then(
+                (res) => {
+                    console.log(res.data)
+                    this.posts = res.data
+                }
+        ).catch(err => console.log(err))
+        // 내가 작성한 포스팅 보기
         let token = localStorage.getItem('Token')
         let tokenoption = {headers: {Authorization: `${token}`}}
         axios.get(`${url}/auth/user/`,tokenoption).then(
             ()=> {
                 this.log_in = true;
             }
-        )        
-        //구매한 포스팅 확인
-        // 모든 포스팅 보기
-        if (this.own_post === false && this.bought_post ===false){
-            axios.get(url + '/post/posts/').then(
-                    (res) => {
-                        console.log(res.data)
-                        this.posts = res.data
-                    }
-            ).catch(err => console.log(err))}
-        // 내가 작성한 포스팅 보기
-        if (this.login){
-            axios.get(`${url}/posts/buying/own_bought/`,tokenoption).then(
+        )
+    },
+    mounted: function(){
+        let token = localStorage.getItem('Token')
+        let tokenoption = {headers: {Authorization: `${token}`}}
+        axios.get(`${url}/auth/user/`,tokenoption).then(
+            ()=> {
+                this.log_in = true;
+            }
+        )
+        if (this.log_in){
+            axios.get(`${url}/post/buyings/own_bought/`,tokenoption).then(
                 (res)=> {
-                    this.bought_list = res.data.post
+                    for (let buying in res.data){ this.bought_list.push(buying.post)}
                     console.log(this.bought_list)
                 }
             )
             if(this.own_post === true && this.bought_post == false){
-                axios.get(url + 'post/posts/own_post/').then(
+                axios.get(url + '/post/posts/own_post/',tokenoption).then(
                         (res) => {
                             console.log(res.data)
                             this.posts = res.data
@@ -76,7 +85,7 @@ export default {
                 ).catch(err => console.log(err))}    
             // 내가 구매한 포스팅 보기        
             if(this.own_post === false && this.bought_post == true){
-                axios.get(url + 'post/posts/').then(
+                axios.get(url + '/post/posts/',tokenoption).then(
                         (res) => {
                             let target = res.data
                             this.post = target.filters( x => {
@@ -85,7 +94,7 @@ export default {
                         }
                 ).catch(err => console.log(err))}
         }
-    },
+    }
 }
 </script>
 

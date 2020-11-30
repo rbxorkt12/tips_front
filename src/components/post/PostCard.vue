@@ -19,6 +19,8 @@
 </template>
 
 <script>
+let token = localStorage.getItem('Token')
+let tokenoption = {headers: {Authorization: `${token}`}}
 let url = 'http://127.0.0.1:8000/api/'
 import axios from 'axios'
     export default {
@@ -34,12 +36,9 @@ import axios from 'axios'
         methods: {
             buyEvent: 
                 function () {
-                    let token = localStorage.getItem('Token')
-                    let tokenoption = {headers: {Authorization: `${token}`}}
                     var buy_want = confirm('Do you want to buy this post?')
                     if (buy_want === true) {
-                        let requesturl = url + 'post/posts/' + this.post.id + '/buy_post/'
-                        axios.get(requesturl,tokenoption).then(
+                        axios.get(url + 'post/posts/' + this.post.id + '/buy_post/',tokenoption).then(
                             () => {
                                 this.bought = true
                             }

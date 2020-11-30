@@ -1,9 +1,9 @@
 <template>
-  <b-card bg-variant="dark" text-variant="white">
+  <b-card bg-variant="info" text-variant="white">
   <b-card-text>
-    {{buying.user}} bought {{buying.post}}th post
+    {{buying.user}}th User bought {{buying.post}}th post
   </b-card-text>
-  <router-link :to="'post/'+buying.post" tag="b-button"></router-link>
+  <router-link :to="'post/'+buying.post" tag="b-button">Go to Post</router-link>
   </b-card>
 </template>
 

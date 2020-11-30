@@ -5,11 +5,11 @@
             <h2>Buyings</h2>
         </template>
         <div id="buyings">
-            <ul v-if="buyings && buyings.length">
-                <li v-for="buying of buyings" v-bind:key="buying.id" class="mb-3 mx-4">
+            <b-row v-if="buyings && buyings.length">
+                <b-col v-for="buying of buyings" v-bind:key="buying.id" class="mb-3 mx-4">
                     <BuyingCard v-bind:buying="buying" ></BuyingCard>
-                </li>
-            </ul>
+                </b-col>
+            </b-row>
         </div>
     </b-card>
 </div>
@@ -27,16 +27,22 @@ export default {
     data() {
         return {
             buyings: null,
+            user: null,
         }
     },
     methods: {
     },
-    mounted: function() {
+    created: function() {
         let token = localStorage.getItem('Token')
         let tokenoption = {headers: {Authorization: `${token}`}}      
+        axios.get(`${url}/auth/user/`,tokenoption).then(
+            (res)=> {
+                this.user = res.data.id
+            }
+        ).catch(()=>{this.bought_list = null})
         axios.get(`${url}/post/buyings/own_bought/`,tokenoption).then(
             (res)=> {
-                this.bought_list = res.data.post
+                this.buyings = res.data
                 console.log(this.bought_list)
             }
         ).catch(()=>{this.bought_list = null})

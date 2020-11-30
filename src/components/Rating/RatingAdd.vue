@@ -1,12 +1,11 @@
 <template>
   <div class="rate">
-    <b-card border-variant="info" align="left" style="max-width:60rem" class="mx-auto mt-5">
+    <b-card border-variant="info" align="left" class="mx-3 mt-1">
         <template #header>
             <h2>Rate</h2>
         </template>
         <b-form-group id='stars' label="Your star: " label-for='username'><b-form-rating v-model="form.stars" required></b-form-rating></b-form-group>
         <b-form-group id='comment' label="Your Comment: " label-for='comment'><b-form-input v-model="form.comment" type='text'></b-form-input></b-form-group>
-        <br>
         <b-button type="submit" variant="primary" @click="Onsubmit">Submit</b-button>
     </b-card>
 </div>  

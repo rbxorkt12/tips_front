@@ -12,13 +12,13 @@
     <b-card-text>{{post.content}}</b-card-text>
     <b-button @click="Onsubmit" variant='danger'>Delete</b-button>
     </b-card>
-    <PostRating :id="id" :comments="post.comment_list" ></PostRating>
+    <PostRating :id="id" :comments="post.comment_list"></PostRating>
     </div>
 </template>
 
 <script>
 import axios from 'axios'
-import PostRating from './PostRating'
+import PostRating from './PostRating.vue'
 let server_url ='http://127.0.0.1:8000/api';
 
 export default {
@@ -31,11 +31,10 @@ export default {
             post: null,
         }
     },
-    created: function() {
+    mounted: function() {
         axios.get(`${server_url}/post/posts/${this.id}/`).then(
             (res)=> {
                 this.post = res.data
-                console.log(this.post)
             }).catch(err=> console.log(err))
     },
     methods: {

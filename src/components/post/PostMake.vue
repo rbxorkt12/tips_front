@@ -1,6 +1,6 @@
 <template>
     <div class="Post_make">
-    <b-card border-variant="info" align="left" style="max-width:60rem" class="mx-3 mt-3">
+    <b-card border-variant="info" align="left" class="mx-3 mt-3">
         <template #header>
             <h2>Post Make</h2>
         </template>
@@ -19,7 +19,7 @@
 
 <script>
 import axios from 'axios'
-let server_url = 'http://127.0.0.1/api/'
+let server_url = 'http://127.0.0.1:8000/api/'
 export default {
     data() {
         return {
@@ -29,6 +29,7 @@ export default {
                 post_kind1 : null,
                 post_kind2 : null,
                 cost : 500,
+                author: null,
             },
             option_1: [
             { value: 'U', text: 'Undergraduated' },
@@ -42,10 +43,17 @@ export default {
     },
     methods: {
         Onsubmit: function () {
-            console.log(this.form)
-            axios.post(server_url + `posts/post/`,this.form).then(
+            let token = localStorage.getItem('Token')
+            let tokenoption = {headers: {Authorization: `${token}`}}    
+            axios.get(`${server_url}auth/user/`,tokenoption).then(
+                (res)=> {
+                    this.form.author = res.data.id
+                }
+            ).catch(()=>{this.bought_list = null})
+            axios.post(server_url + `post/posts/`,this.form,tokenoption).then(
                     (res) => {
                         console.log(res)
+                        this.$router.push({name: 'listpost'})
                     }
             ).catch(err => console.log(err))}
     }

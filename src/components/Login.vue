@@ -26,7 +26,6 @@ export default {
     },
     methods: {
         Onsubmit: function () {
-            console.log(this.form)
             axios.post(server_url + 'auth/login/',this.form).then(
                     (res) => {
                         localStorage.setItem('Token','Token ' + res.data.token)
