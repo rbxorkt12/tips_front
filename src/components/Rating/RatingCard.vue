@@ -1,8 +1,8 @@
 <template>
     <div id="rate_card">
-        <b-card :title="comment.stars" :sub-title="comment.user">
+        <b-card border-variant="info">
             <b-card-text>
-            {{comment.comments}}
+            {{comment}}
             </b-card-text>
         </b-card>
     </div>  

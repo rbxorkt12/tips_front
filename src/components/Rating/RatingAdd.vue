@@ -26,10 +26,12 @@ export default {
     props: ['id'],
     methods: {
         Onsubmit: function () {
-            console.log(this.form)
-            axios.post(server_url + `posts/post/${this.id}/rate_post`,this.form).then(
+            let token = localStorage.getItem('Token')
+            let tokenoption = {headers: {Authorization: `${token}`}}
+            axios.post(server_url + `post/posts/${this.id}/rate_post/`,this.form,tokenoption).then(
                     (res) => {
                         console.log(res)
+                        this.$router.push({name:'listpost'})
                     }
             ).catch(err => console.log(err))}
     }

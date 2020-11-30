@@ -55,10 +55,10 @@
         },
         methods: {
             Onsubmit: function () {
-                axios.post(url + `auth/profile/${this.user_pk}/update`, this.form).then(
+                axios.post(url + `auth/profile/${this.user_pk}/update/`, this.form).then(
                     (res) => {
                         console.log(res)
-                        this.$router.push('listpost')
+                        this.$router.push({name: 'listpost'})
                     }
                 ).catch(err => console.log(err))
             }

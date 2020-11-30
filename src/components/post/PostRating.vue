@@ -4,11 +4,11 @@
             <template #header>
             <h2>Comment List</h2>
             </template>
-            <ul v-if="comments && comments.length">
-                <li v-for="comment of comments" v-bind:key="comment.id" class="mb-3 mx-4">
+            <b-row v-if="comments && comments.length">
+                <b-col v-for="comment of comments" v-bind:key="comment.id" class="mb-3 mx-4">
                     <RatingCard v-bind:comment="comment" ></RatingCard>
-                </li>
-            </ul>
+                </b-col>
+            </b-row>
         </b-card>
         <div id="comment_add">
             <RatingAdd :id="id"></RatingAdd>

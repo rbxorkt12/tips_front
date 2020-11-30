@@ -31,7 +31,7 @@ export default {
             post: null,
         }
     },
-    mounted: function() {
+    created: function() {
         axios.get(`${server_url}/post/posts/${this.id}/`).then(
             (res)=> {
                 this.post = res.data
@@ -39,15 +39,20 @@ export default {
     },
     methods: {
         Onsubmit: function () {
-            console.log(this.form)
+            let token = localStorage.getItem('Token')
+            let tokenoption = {headers: {Authorization: `${token}`}}
+            axios.get(`${server_url}/auth/user/`,tokenoption).then(()=>{
             var buy_want = confirm('Do you really want delete post?')
             if (buy_want === true){
-            axios.delete(server_url + `/post/posts/${this.id}/`).then(
+            axios.delete(server_url + `/post/posts/${this.id}/`,tokenoption).then(
                     (res) => {
                         console.log(res)
+                        this.$router.push({name: 'listpost'})
                     }
-            ).catch(err => console.log(err))}}
-    }
+            ).catch(err => console.log(err))}
+            }
+            )
+    }}
 }
 </script>
 

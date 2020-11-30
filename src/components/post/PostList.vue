@@ -1,14 +1,14 @@
 <template>
 <div class="ListTips">
-    <b-button :to="{name: 'postmake'}" class='float-left ml-3'>Make New Post</b-button>
+    <b-button :to="{name: 'postmake'}" class='float-left ml-3' :disable='log_in'>Make New Post</b-button>
     <br>
     <br>
     <b-card header-tag="header" class="mb-2 mx-3" border-variant="info" align="left">
         <template #header>
             <h2>Tips</h2>
             <b-row align="right" class="text-center">
-                <b-col><b-form-checkbox id='own_post' v-model="own_post" name='own_post' :disabled="!log_in">My post</b-form-checkbox></b-col>
-                <b-col><b-form-checkbox id='bought_post' v-model="bought_post" name='bought_post' :disabled="!log_in">Bought post</b-form-checkbox></b-col>
+                <b-col><b-form-checkbox id='own_post' v-model="own_post" name='own_post' disabled>My post</b-form-checkbox></b-col>
+                <b-col><b-form-checkbox id='bought_post' v-model="bought_post" name='bought_post' disabled>Bought post</b-form-checkbox></b-col>
             </b-row>
         </template>
         <div id="list">
@@ -43,7 +43,6 @@ export default {
     methods: {
     },
     created: function() {
-
         //구매한 포스팅 확인
         // 모든 포스팅 보기
         axios.get(url + '/post/posts/').then(
@@ -56,27 +55,15 @@ export default {
         let token = localStorage.getItem('Token')
         let tokenoption = {headers: {Authorization: `${token}`}}
         axios.get(`${url}/auth/user/`,tokenoption).then(
-            ()=> {
+            ()=> {        
                 this.log_in = true;
-            }
-        )
-    },
-    mounted: function(){
-        let token = localStorage.getItem('Token')
-        let tokenoption = {headers: {Authorization: `${token}`}}
-        axios.get(`${url}/auth/user/`,tokenoption).then(
-            ()=> {
-                this.log_in = true;
-            }
-        )
-        if (this.log_in){
-            axios.get(`${url}/post/buyings/own_bought/`,tokenoption).then(
+                axios.get(`${url}/post/buyings/own_bought/`,tokenoption).then(
                 (res)=> {
-                    for (let buying in res.data){ this.bought_list.push(buying.post)}
+                    this.bought_list = res.data.map((v) => {return v.post})
                     console.log(this.bought_list)
                 }
-            )
-            if(this.own_post === true && this.bought_post == false){
+                ).catch(err => console.log(err))
+            if(this.own_post == true && this.bought_post == false){
                 axios.get(url + '/post/posts/own_post/',tokenoption).then(
                         (res) => {
                             console.log(res.data)
@@ -93,8 +80,11 @@ export default {
                             })
                         }
                 ).catch(err => console.log(err))}
-        }
-    }
+            })
+
+        
+    },
+
 }
 </script>
 

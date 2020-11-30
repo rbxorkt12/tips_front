@@ -6,7 +6,7 @@
         <br>
         <b-row align-v="center" class="text-center">
             <b-col>
-                <b-button :href="post.id" variant="info" class="text-center" v-if='bought' >Detail</b-button>
+                <b-button :to="{name : 'postDetail', params: {id :post.id}}" class="text-center" v-if='bought' >Detail</b-button>
                 <b-button variant="info" class="text-center" @click="buyEvent" v-else >Buy</b-button>
             </b-col>
         </b-row>
@@ -50,7 +50,7 @@ import axios from 'axios'
 
             
         },
-        mounted: function () {
+        created: function () {
             if (this.bought_list.includes(this.post.id)){
                 this.bought = true;
             }

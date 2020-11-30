@@ -47,14 +47,10 @@ export default {
     },
     methods: {
         logout: function () {
-            axios.post(url + 'auth/logout/',this.form).then(
-                    () => {
-                        localStorage.removeItem('Token')
-                        this.$router.push('listpost')
-                    }
-            ).catch(err => console.log(err))}
+            localStorage.removeItem('Token')
+            this.$router.push({name:'listpost'})}
     },
-    mounted: function() {
+    created: function() {
         let userurl = url + 'auth/user/'
         let token = localStorage.getItem('Token')
         let tokenoption = {headers: {Authorization: `${token}`}}
@@ -73,6 +69,25 @@ export default {
             }
         ).catch(this.login = false)
     },
+    updated: function(){
+        let userurl = url + 'auth/user/'
+        let token = localStorage.getItem('Token')
+        let tokenoption = {headers: {Authorization: `${token}`}}
+        axios.get(userurl,tokenoption).then(
+            (res) => {
+                console.log(res)
+                this.username = res.data.username
+                this.login = true
+                userurl = url + 'auth/profile/'
+                axios.get(userurl,tokenoption).then(
+                    (res) => {
+                        this.credit = res.data.credit
+                    }
+
+                ).catch(this.credit = 'error')
+            }
+        ).catch(this.login = false)
+    }
 }
 </script>
 
